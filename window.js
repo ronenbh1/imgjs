@@ -1,6 +1,10 @@
 var remote = require('electron').remote;
 var fs = remote.require('fs');
 const sharp = require('sharp');
+
+const image_loader = require('./build/Release/image_loader');
+console.log(image_loader.hello());
+
 console.time("sharp")
 sharp('test/greymen.png')
     .normalise()
