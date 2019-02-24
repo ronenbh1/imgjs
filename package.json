@@ -9,6 +9,8 @@
     "electron": "^4.0.0-nightly.20181010",
     "electron-rebuild": "^1.8.2",
     "fs": "latest",
+    "napi-macros": "^1.8.2",
+    "node-addon-api": "*",
     "sharp": "^0.19.1"
   }
 }
