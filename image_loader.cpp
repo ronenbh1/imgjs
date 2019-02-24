@@ -3,13 +3,18 @@
 
 namespace imgjs {
 
-napi_value Method(napi_env env, napi_callback_info args) {
-  napi_value greeting;
+napi_value Method(napi_env env, napi_callback_info args) 
+{
   napi_status status;
+  char* buffer = (char*)node::Buffer::Data(info[0]->ToObject());
+  unsigned int size = info[1]->Uint32Value();
 
-  status = napi_create_string_utf8(env, "hello", NAPI_AUTO_LENGTH, &greeting);
-  if (status != napi_ok) return nullptr;
-  return greeting;
+  std::ifstream file("test/greymen.png", std::ios::binary | std::ios::ate);
+  std::streamsize size = file.tellg();
+  file.seekg(0, std::ios::beg);
+  if (!file.read(buffer, size))
+    return 1;
+  return 0;
 }
 
 napi_value init(napi_env env, napi_value exports) {
@@ -19,7 +24,7 @@ napi_value init(napi_env env, napi_value exports) {
   status = napi_create_function(env, nullptr, 0, Method, nullptr, &fn);
   if (status != napi_ok) return nullptr;
 
-  status = napi_set_named_property(env, exports, "hello", fn);
+  status = napi_set_named_property(env, exports, "get_image", fn);
   if (status != napi_ok) return nullptr;
   return exports;
 }
